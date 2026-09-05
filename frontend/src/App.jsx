@@ -16,7 +16,7 @@ import { Scatter } from 'react-chartjs-2';
 // Register Chart.js components for scatter plot (used for heatmap alternative)
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 const CLASSIFICATION_METRICS = [
   ['accuracy', 'Accuracy'], ['precision', 'Precision'], ['recall', 'Recall'], ['f1', 'F1 score'],
