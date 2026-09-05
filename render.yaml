@@ -4,7 +4,6 @@ services:
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
-    plan: free
     healthCheckPath: /
     envVars:
       - key: CORS_ORIGINS
@@ -15,7 +14,6 @@ services:
     runtime: static
     buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: frontend/dist
-    plan: free
     envVars:
       - key: VITE_API_BASE_URL
         value: https://automl-backend.onrender.com
