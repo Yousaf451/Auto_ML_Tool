@@ -18,8 +18,8 @@ FROM nginx:alpine
 # Copy built assets
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy custom nginx config (if you want reverse proxy)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Nginx substitutes BACKEND_URL when the container starts.
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 EXPOSE 80
 
