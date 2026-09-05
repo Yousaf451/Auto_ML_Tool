@@ -10,7 +10,7 @@ services:
       - key: CORS_ORIGINS
         value: https://automl-frontend.onrender.com,http://localhost:5173,http://localhost
 
-  - type: web
+  - type: static
     name: automl-frontend
     buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: frontend/dist
