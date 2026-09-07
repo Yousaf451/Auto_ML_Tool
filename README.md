@@ -119,7 +119,7 @@ The project is meant for learning, prototyping, and lightweight model exploratio
 | Visualization | Chart.js, react-chartjs-2 | Correlation display |
 | HTTP client | Axios | API calls from frontend |
 | Data parsing | pandas | CSV/Excel ingestion |
-| Deployment helper | Docker Compose | Container orchestration support |
+| Local development | Uvicorn and Vite | Run the backend and frontend locally |
 
 ---
 
@@ -136,8 +136,7 @@ autoML-tool/
 │   ├── tests/
 │   │   └── test_regression_pipeline.py
 │   ├── main.py                    # FastAPI app and orchestration logic
-│   ├── requirements.txt
-│   └── Dockerfile
+│   └── requirements.txt
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx                 # main UI logic and dataset workflow
@@ -145,11 +144,8 @@ autoML-tool/
 │   │   └── main.jsx
 │   ├── package.json
 │   ├── vite.config.js
-│   ├── index.html
-│   ├── nginx.conf
-│   └── Dockerfile
+│   └── index.html
 ├── data/                          # project data folder
-├── docker-compose.yml
 ├── .venv/                         # local Python virtual environment
 ├── .conda/                       # local conda metadata if present
 ├── tmp_upload.csv                # sample file used during debugging
@@ -194,7 +190,6 @@ The frontend in [frontend/src/App.jsx](frontend/src/App.jsx) is responsible for:
 
 - Python 3.11 or newer
 - Node.js 18+ and npm
-- Optional: Docker + Docker Compose
 
 ### 1) Clone the repository
 
@@ -245,10 +240,8 @@ The project uses these defaults:
 
 | Variable | Default | Notes |
 | --- | --- | --- |
-| `API_BASE_URL` | `http://localhost:8000` | Set in the frontend app |
-| `BACKEND_PORT` | `8000` | Used by the FastAPI app |
-| `FRONTEND_PORT` | `5173` | Vite dev server default |
-| `DOCKER_FRONTEND_PORT` | `80` | Used in the provided Docker Compose config |
+| `VITE_API_BASE_URL` | empty | Uses the Vite `/api` proxy for local development |
+| `CORS_ORIGINS` | `http://localhost:5173,http://localhost,http://localhost:3000` | Local frontend origins accepted by FastAPI |
 
 There are no required environment variables in the current codebase beyond the local app ports.
 
@@ -282,17 +275,6 @@ npm run dev -- --host 0.0.0.0 --port 5173
 Open:
 
 - http://localhost:5173
-
-### Run with Docker Compose
-
-```bash
-docker compose up --build
-```
-
-This starts:
-
-- backend on port `8000`
-- frontend on port `80`
 
 ---
 

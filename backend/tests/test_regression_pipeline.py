@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from main import build_model_pipeline, dataframe_preview
+from main import build_model_pipeline, dataframe_preview, preprocess_data
 from ml.search import run_search
 
 
@@ -53,6 +53,16 @@ class RegressionPipelineTests(unittest.TestCase):
         self.assertIsNone(values[1])
         self.assertIsNone(values[2])
         self.assertIsNone(values[3])
+
+    def test_preprocessing_converts_infinite_numeric_values_to_missing(self):
+        df = pd.DataFrame({
+            'feature': [1.0, np.inf, -np.inf, 4.0],
+            'target': [2.0, 4.0, 6.0, 8.0],
+        })
+
+        X, _, _ = preprocess_data(df, 'target')
+
+        self.assertTrue(np.isfinite(X.to_numpy()).all())
 
 
 if __name__ == '__main__':

@@ -128,6 +128,10 @@ def preprocess_data(df: pd.DataFrame, target_column: str) -> Tuple[pd.DataFrame,
     y = df[target_column]
     X = df.drop(columns=[target_column])
 
+    numeric_input_cols = X.select_dtypes(include=["number"]).columns
+    if len(numeric_input_cols):
+        X[numeric_input_cols] = X[numeric_input_cols].replace([np.inf, -np.inf], np.nan)
+
     warnings = []
     numeric_cols = X.select_dtypes(include=["number"]).columns.tolist()
     categorical_cols = X.select_dtypes(include=["object", "category"]).columns.tolist()
@@ -169,6 +173,9 @@ def preprocess_data(df: pd.DataFrame, target_column: str) -> Tuple[pd.DataFrame,
 def build_model_pipeline(df: pd.DataFrame, target_column: str, best_result: Dict[str, Any]) -> Tuple[Pipeline, Dict[str, Any], pd.DataFrame]:
     training_df = df.dropna(subset=[target_column]).copy()
     X_raw = training_df.drop(columns=[target_column])
+    numeric_input_cols = X_raw.select_dtypes(include=["number"]).columns
+    if len(numeric_input_cols):
+        X_raw[numeric_input_cols] = X_raw[numeric_input_cols].replace([np.inf, -np.inf], np.nan)
     numeric_features = X_raw.select_dtypes(include=["number"]).columns.tolist()
     categorical_features = X_raw.select_dtypes(include=["object", "category"]).columns.tolist()
     dropped_features = [column for column in categorical_features if X_raw[column].nunique() > 100]
